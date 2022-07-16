@@ -3,6 +3,13 @@ init()
 	level thread on_player_connect();
 }
 
+IsSliding() //You can use this function like BO3/BO4/BOCW's IsSliding() function to check if the player is sliding.
+{
+	if(is_true(self.isSliding))
+		return true;
+	return false;
+}
+
 on_player_connect()
 {
 	level endon("end_game");
@@ -15,8 +22,8 @@ on_player_connect()
 
 ready_to_slide()
 {
-	self.is_sliding = false;
-	self.is_ready_to_slide = true;
+	self.isSliding = false;
+	self.isReadyToSlide = true;
 	while(1)
 	{
 		if(self IsSprinting() && self IsOnGround())
@@ -40,24 +47,22 @@ ready_to_slide()
 
 knee_slide()
 {
-	if(self GetStance() == "crouch" && !self.is_sliding && self.is_ready_to_slide && self IsOnGround())
+	if(self GetStance() == "crouch" && !self.Sliding && self.isReadyToSlide)
 	{
 		self.is_sliding = true;
-		self.ready_to_slide = false;
+		self.isReadyToSlide = false;
 		self.is_drinking = 1;
 		self SetStance( "crouch" );
 		self AllowProne(false);
-		//self AllowStand(false);
 		self AllowAds(false);
 		self AllowMelee(false);
 		self do_knee_slide(300,1);
 		self.is_drinking = undefined;
-		self.is_sliding = false;
+		self.isSliding = false;
 		self AllowAds(true);
 		self AllowMelee(true);
 		self AllowProne(true);
-		//self AllowStand(true);
-		self.ready_to_slide = true;
+		self.isReadyToSlide = true;
 	}
 }
 
